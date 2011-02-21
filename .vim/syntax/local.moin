@@ -1,0 +1,40 @@
+@ Using ID 3bae13e33bf98b9c34e3.
+@ Comment: None
+@ Notify: (x) Yes  ( ) No
+@ Add category: (x) None
+@@              ( ) CategoryCategory
+@@              ( ) CategoryEmpty
+@@              ( ) CategoryHomepage
+
+Describe SandBox here.
+
+== headline ==
+
+  * items
+  * more items
+
+||<foo> FooBar ||
+|| <foo> ||
+|| ||<foo>
+|| ||<foo> ||
+|| || <foo> ||
+== testing macros ==
+
+A link to a random page: [[RandomPage]]
+
+System info: [[SystemInfo]]
+
+= bigtitle =
+ * list1  :)
+ * list2  :o
+
+[[FootNote(This is a simple footnote)]]
+[[FootNote(This is a second footnote)]]
+
+=== lists ===
+ 1. kjkjkjkj
+  salkjflkasdf
+ 2. sljflkjsdlfkjd
+  alksjdflkajsdf
+
+BugId:8098

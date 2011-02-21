@@ -1,0 +1,1 @@
+/home/niemeyer/src/editmoin/trunk/moin1_6.vim

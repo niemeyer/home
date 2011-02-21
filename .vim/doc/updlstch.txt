@@ -1,0 +1,53 @@
+*updlstch.txt* Plugin to update the "Last Change:" comment
+
+by Gustavo Niemeyer ~
+
+This is a simple Vim plugin used to update the comment "Last Changed:",
+used in most Vim script files. The plugin will update the time string
+everytime you save a script.
+
+
+1. Customizing		|updlstch-customizing|
+2. How it works		|updlstch-how-it-works|
+
+==============================================================================
+1. Customizing					*updlstch-customizing*
+
+						*updlstch_format*
+You can easily customize how the time string will look like. To do this
+just set the variable "updlstch_format" in your .vimrc file like this: >
+
+	let updlstch_format = "%a, %d %b %Y %H:%M:%S %z"
+
+Note that "%a, %d %b %Y %H:%M:%S %z" is the default format string and will
+be used if you don't provide one. You can change this string at any time.
+
+To discover which format options you can use, take a look at the strftime()
+function man page.
+
+
+==============================================================================
+2. How it works					*updlstch-how-it-works*
+
+						*UpdateLastChange()*
+The plugin file provide a simple function called UpdateLastChange(). Trough
+its only parameter, this function takes the final string that should be
+put in the last change comment. You could test it by calling >
+
+	:call UpdateLastChange("my time string")
+
+If the present buffer have a valid last change comment, the time string will
+be replaced by "my time string".
+
+Everything else is performed by the vim function strftime(). The function
+UpdateLastChanged() will be put in an autocmd to be executed when the buffer
+is saved with a parameter like strftime(updlstch_format) (yes, the magic
+is over ;-). Something like this: >
+
+	au BufWrite *.vim,*.vimrc \
+		call UpdateLastChange(strftime(updlstch_format))
+
+
+Good luck!!
+
+vim:tw=78
