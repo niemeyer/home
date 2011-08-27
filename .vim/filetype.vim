@@ -22,5 +22,6 @@ au! BufRead,BufNewFile *.scala set ts=4 sw=4 et ft=scala
 au! BufRead,BufNewFile *.xml set ts=2 sw=2 et
 au! BufRead,BufNewFile *.go set ft=go
 au! BufRead,BufNewFile review.txt set ft=review
+au! BufRead,BufNewFile *.mustache set ft=mustache
 
 augroup END

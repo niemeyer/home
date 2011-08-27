@@ -1,5 +1,5 @@
 " Set identation rules
-set ts=4 sw=4 et
+set ts=8 sw=8 noet
 
 " Set program for K magic key
 set keywordprg=godoc
