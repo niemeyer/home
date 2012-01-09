@@ -5,6 +5,7 @@ set ts=8 sw=8 noet
 set keywordprg=godoc
 
 " Synchronize on func declarations
-"syn sync clear
-"syn sync maxlines=1000
+syn sync clear
+syn sync maxlines=1000
+syn sync fromstart
 "syn sync match goSync grouphere NONE "^var\>"
