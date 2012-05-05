@@ -2,8 +2,8 @@
 
 
 map <buffer> <LocalLeader>t :make test<CR>
-map <buffer> <LocalLeader>m :make testpackage<CR>
 
+set makeprg=go
 setlocal errorformat=
 	\%-EPANIC:\ %f:%l:\ %.%#,
 	\%-EFAIL:\ %f:%l:\ %.%#,
