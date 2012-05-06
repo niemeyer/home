@@ -15,6 +15,6 @@ fi
 
 rm -f backup.tar.bz2
 LIST=`find -maxdepth 1 | sed -n 's:./::p'`
-tar cjf backup.tar.bz2 --exclude=.s3up --exclude=s3up --exclude=.nobackup $EXCLUDE $LIST
+tar cjf backup.tar.bz2 --exclude=.s3up --exclude=s3up --exclude=s3up.386 $EXCLUDE $LIST
 $HOME/bin/s3up backup.tar.bz2 "labix-backup/${DATE}/${USER}@${HOST}_${TIME}_${UUID}.tar.bz2"
 rm backup.tar.bz2
