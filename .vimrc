@@ -1,6 +1,6 @@
 " Filename: ~/.vimrc
 " Maintainer: Gustavo Niemeyer <niemeyer@conectiva.com>
-" Last Change: Sat, 19 Feb 2011 19:44:06 -0200
+" Last Change: Mon, 07 Apr 2014 11:43:12 -0300
 
 set nocompatible " Load defaults to vim
 set ai           " Turn autoindent on
@@ -36,6 +36,9 @@ set guioptions-=T
 set guioptions-=m
 set guioptions+=c
 set guifont=Monospace\ 13
+
+
+" let gofmt_command="goimports"
 
 " Setup spcchlog plugin
 let spec_chglog_format = "%a %b %d %Y Gustavo Niemeyer <gustavo@niemeyer.net>"

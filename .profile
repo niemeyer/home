@@ -3,10 +3,13 @@
 #fi
 #export LOADED_PROFILE=1
 
-export PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin
+export PATH=$HOME/bin:/snap/bin:/bin:/sbin:/usr/bin:/usr/sbin
 export GOPATH=$HOME
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+
+# So ~/.XCompose works
+export GTK_IM_MODULE="xim"
 
 # For Bazaar
 export EMAIL='Gustavo Niemeyer <gustavo@niemeyer.net>'

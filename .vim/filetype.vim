@@ -23,5 +23,6 @@ au! BufRead,BufNewFile *.xml set ts=2 sw=2 et
 au! BufRead,BufNewFile *.go set ft=go
 au! BufRead,BufNewFile review.txt set ft=review
 au! BufRead,BufNewFile *.mustache set ft=mustache
+au! BufRead,BufNewFile *.rl set ft=ragel
 
 augroup END
