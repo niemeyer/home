@@ -9,18 +9,24 @@ fi
 
 governor() {
 	for i in `seq 0 3`; do
-		FILE=/sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
-		if [ -f $FILE ]; then 
-			echo $1 | sudo tee $FILE > /dev/null
+		ONLINE=/sys/devices/system/cpu/cpu$i/online
+		if [ $i != 0 ]; then
+			if [ `cat $ONLINE` != 1 ]; then
+				continue
+			fi
+		fi
+		GOVERNOR=/sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+		if [ -f $GOVERNOR ]; then 
+			echo $1 | sudo tee $GOVERNOR > /dev/null
 		fi
 	done
 }
 
 online() {
 	for i in `seq 1 3`; do
-		FILE=/sys/devices/system/cpu/cpu$i/online
-		if [ `cat $FILE` != $1 ]; then
-			echo $1 | sudo tee /sys/devices/system/cpu/cpu$i/online > /dev/null
+		ONLINE=/sys/devices/system/cpu/cpu$i/online
+		if [ `cat $ONLINE` != $1 ]; then
+			echo $1 | sudo tee $ONLINE > /dev/null
 		fi
 	done
 }
@@ -32,13 +38,9 @@ case $LEVEL in
 		;;
 	"0")
 		online 1
-		governor ondemand
-		;;
-	"1")
-		online 1
 		governor powersave
 		;;
-	"2")
+	"1")
 		online 0
 		governor powersave
 		;;
