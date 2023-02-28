@@ -1,6 +1,6 @@
 " Filename: ~/.vimrc
 " Maintainer: Gustavo Niemeyer <niemeyer@conectiva.com>
-" Last Change: Mon, 07 Apr 2014 11:43:12 -0300
+" Last Change: dom, 28 jul 2019 18:26:56 +0100
 
 set nocompatible " Load defaults to vim
 set ai           " Turn autoindent on
@@ -15,6 +15,7 @@ set viminfo='50,\"1000,%
 set nobackup
 set background=dark
 set tags=tags;/
+set belloff=all  " Disable all bells.
 
 " Set leader for plugins' maps
 "let mapleader=","
@@ -66,3 +67,25 @@ if &term == "screen"
 	set t_kN=[6;*~
 	set t_kP=[5;*~
 endif
+
+" Remap omnifunc autocompletion
+
+" Disable preview window.
+set completeopt=menuone,longest  "preview
+
+function! TabCompletion()
+	let col = col('.') - 1
+	if col == 0 || getline('.')[:col-1] =~ '^\s*$'
+		return "\<tab>"
+	else
+		return "\<C-x>\<C-o>"
+	endif
+endfunction
+inoremap <Tab> <c-r>=TabCompletion()<cr>
+inoremap <S-Tab> <Tab>
+"inoremap <C-Tab> <Tab>    " Doesn't work due to terminal issues.
+"inoremap <Nul> <C-x><C-o> " Mapping of CTRL-Space
+
+" Make the completion menu more visible.
+hi Pmenu ctermfg=white ctermbg=black
+hi PmenuSel ctermfg=white ctermbg=darkblue

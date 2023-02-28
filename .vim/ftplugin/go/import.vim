@@ -41,7 +41,6 @@ command! -buffer -nargs=1 -complete=customlist,go#complete#Package Import call s
 command! -buffer -nargs=* -complete=customlist,go#complete#Package ImportAs call s:SwitchImport(1, <f-args>)
 map <buffer> <LocalLeader>f :Import fmt<CR>
 map <buffer> <LocalLeader>F :Drop fmt<CR>
-
 function! s:SwitchImport(enabled, localname, path)
     let view = winsaveview()
     let path = a:path
@@ -69,6 +68,7 @@ function! s:SwitchImport(enabled, localname, path)
     let appendline = -1  " Position to introduce new import
     let deleteline = -1  " Position of line with existing import
     let linesdelta = 0   " Lines added/removed
+    let appendempty = 0  " Whether to append an empty line first
 
     " Find proper place to add/remove import.
     let line = 0
@@ -83,27 +83,40 @@ function! s:SwitchImport(enabled, localname, path)
             let appendstr = qlocalpath
             let indentstr = 1
             let appendline = line
+            let foundpaths = 0
+            let foundhost = 0
+            let pathhost = s:Host(path)
             while line <= line("$")
                 let line = line + 1
                 let linestr = getline(line)
                 let m = matchlist(getline(line), '^\()\|\(\s\+\)\(\S*\s*\)"\(.\+\)"\)')
-                if empty(m)
-                    continue
-                endif
-                if m[1] == ')'
+                if empty(m) || m[1] == ')'
+                    if foundpaths && !foundhost && !appendempty
+                        let appendline = line-1
+                        let appendempty = 1
+                    endif
+                    if empty(m)
+                        continue
+                    endif
                     break
                 endif
+                let foundpaths = 1
                 if a:localname != '' && m[3] != ''
                     let qlocalpath = printf('%-' . (len(m[3])-1) . 's %s', a:localname, qpath)
                 endif
-                let appendstr = m[2] . qlocalpath
-                let indentstr = 0
                 if m[4] == path
                     let appendline = -1
                     let deleteline = line
                     break
-                elseif m[4] < path
-                    let appendline = line
+                elseif s:Host(m[4]) == pathhost
+                    if !foundhost
+                        let appendline = line-1
+                    endif
+                    let foundhost = 1
+                    let appendempty = 0
+                    if m[4] < path
+                        let appendline = line
+                    endif
                 endif
             endwhile
             break
@@ -151,6 +164,10 @@ function! s:SwitchImport(enabled, localname, path)
                 let linesdelta += 3
                 let appendstr = qlocalpath
                 let indentstr = 1
+            elseif appendempty
+                call append(appendline, '')
+                let appendline += 1
+                let linesdelta += 1
             endif
             call append(appendline, appendstr)
             execute appendline + 1
@@ -196,6 +213,17 @@ endfunction
 
 function! s:Error(s)
     echohl Error | echo a:s | echohl None
+endfunction
+
+function! s:Host(path)
+    if stridx(a:path, ".") == -1
+        return ""
+    endif
+    let slash = stridx(a:path, "/")
+    if slash > 0
+        return strpart(a:path, 0, slash)
+    endif
+    return ""
 endfunction
 
 " vim:ts=4:sw=4:et

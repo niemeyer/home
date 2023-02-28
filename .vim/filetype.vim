@@ -24,5 +24,7 @@ au! BufRead,BufNewFile *.go set ft=go
 au! BufRead,BufNewFile review.txt set ft=review
 au! BufRead,BufNewFile *.mustache set ft=mustache
 au! BufRead,BufNewFile *.rl set ft=ragel
+au! BufRead,BufNewFile *.html syntax sync minlines=1000
+au! BufRead,BufNewFile *.cue set ts=4 sw=4
 
 augroup END

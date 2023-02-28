@@ -35,6 +35,11 @@ alias zln='zmv -L'
 autoload -U compinit
 compinit -u
 
+# Completion for kubectl
+if which kubectl > /dev/null; then
+  source <(kubectl completion zsh)
+fi
+
 # Usual alias
 alias ls='ls --color=auto'
 
@@ -46,6 +51,9 @@ bindkey ' ' magic-space
 
 # Enable nice incremental search for vi mode
 bindkey '^R' history-incremental-search-backward
+
+# Disable beeps
+setopt nobeep
 
 # Automaticaly pushd non duplicated entries on cd, and limit stack size
 setopt autopushd
