@@ -1,0 +1,16 @@
+[user]
+	name = Gustavo Niemeyer
+	email = gustavo@niemeyer.net
+[github]
+	user = niemeyer
+[color]
+	ui = auto
+[push]
+	default = simple
+[tag]
+	sort = version:refname
+[alias]
+	ghost = update-index --assume-unchanged
+	unghost = update-index --no-assume-unchanged
+	ghosted = ! git ls-files -v | grep '^[a-z]'
+	noghost = ! git ls-files -v | awk '/^[a-z]/ {system(\"git update-index --no-assume-unchanged \"$2)}'
