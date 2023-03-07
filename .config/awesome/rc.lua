@@ -11,8 +11,7 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 local vicious = require("vicious")
-local battery_widget = require("battery-widget.battery-widget")
-
+local battery_widget = require("battery-widget")
 local cast = require("cast")
 
 -- Load Debian menu entries
@@ -49,16 +48,17 @@ beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
 beautiful.wallpaper = "/usr/share/backgrounds/jj_dark_by_Hiking93.jpg"
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt -e tmux new-session"
-editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. "\\; new-window " .. editor
+local terminal = "urxvt -e tmux new-session"
+local editor = os.getenv("EDITOR") or "editor"
+local editor_cmd = terminal .. "\\; new-window " .. editor
+local hostname = io.lines("/proc/sys/kernel/hostname")()
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -100,7 +100,7 @@ end
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-myawesomemenu = {
+local myawesomemenu = {
    -- { "hotkeys", function() return false, hotkeys_popup.show_help end},
    -- { "manual", terminal .. " -e man awesome" },
    -- { "edit config", editor_cmd .. " " .. awesome.conffile },
@@ -108,15 +108,15 @@ myawesomemenu = {
    -- { "quit", function() awesome.quit() end}
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+local mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "debian", debian.menu.Debian_menu.Debian },
                                     { "open terminal", terminal }
                                   }
                         })
 
-mymainmenu = nil -- Disabled for now.
+local mymainmenu = nil -- Disabled for now.
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+local mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
@@ -124,11 +124,11 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+local mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+local mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -188,13 +188,16 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-mybattery = battery_widget({
-    adapter = "BAT0",
-    ac_prefix = "⚡",
-    battery_prefix = "",
-    widget_text = "${color_on}${AC_BAT}${percent}%${color_off}",
-    tooltip_text = "Battery ${state}${time_est}",
-})
+local mybattery = nil
+if hostname == "nomad" then
+    mybattery = battery_widget({
+        adapter = "BAT0",
+        ac_prefix = "⚡",
+        battery_prefix = "",
+        widget_text = "${color_on}${AC_BAT}${percent}%${color_off}",
+        tooltip_text = "Battery ${state}${time_est}",
+    })
+end
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -390,7 +393,7 @@ globalkeys = awful.util.table.join(
               {description = "show the menubar", group = "launcher"})
 )
 
-clientkeys = awful.util.table.join(
+local clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
@@ -472,7 +475,7 @@ for i = 1, 9 do
     )
 end
 
-clientbuttons = awful.util.table.join(
+local clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
