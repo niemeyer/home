@@ -1,0 +1,4 @@
+killall pulseaudio
+pulseaudio --start --exit-idle-time=-1
+xrdb -DREMOTE .Xresources
+awesome
