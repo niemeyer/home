@@ -1,0 +1,35 @@
+#!/bin/bash
+
+OUTPUT=/dev/null
+#OUTPUT=/tmp/debug
+
+if [ "$DISABLE_NOHUP" = "" ]; then
+   echo HUP >> $OUTPUT
+   export DISABLE_NOHUP=true
+   /bin/nohup "${BASH_SOURCE[0]}" "${args[@]}" 0<&- &>> $OUTPUT &
+   exit 0
+fi
+
+set -x
+
+# Something is killing the script before it can finish.
+trap "" SIGINT SIGTERM SIBABRT
+
+# If it runs too fast the touchscreen won't be listed.
+sleep 3
+
+# Also need to be fail safe as the IDs change mid-way! FFS!
+while true; do
+	date
+	LIST="$(xinput list)"
+	if [ "$?" -ne 0 ]; then
+		continue
+	fi
+	echo "$LIST"
+	echo "$LIST" | sed -n 's/.*USB2IIC_CTP_CONTROL.*id=\([0-9]\+\).*pointer.*/xinput --map-to-output \1 DP-1/p' | /bin/bash -ex -
+	if [ "$?" -ne 0 ]; then
+		continue
+	fi
+	break
+done
+date
