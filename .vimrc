@@ -1,6 +1,6 @@
 " Filename: ~/.vimrc
 " Maintainer: Gustavo Niemeyer <niemeyer@conectiva.com>
-" Last Change: dom, 28 jul 2019 18:26:56 +0100
+" Last Change: sáb, 22 abr 2023 14:18:32 +0100
 
 set nocompatible " Load defaults to vim
 set ai           " Turn autoindent on
@@ -73,16 +73,17 @@ endif
 " Disable preview window.
 set completeopt=menuone,longest  "preview
 
-function! TabCompletion()
-	let col = col('.') - 1
-	if col == 0 || getline('.')[:col-1] =~ '^\s*$'
-		return "\<tab>"
-	else
-		return "\<C-x>\<C-o>"
-	endif
-endfunction
-inoremap <Tab> <c-r>=TabCompletion()<cr>
-inoremap <S-Tab> <Tab>
+" This is misbehaving on Android.
+"function! TabCompletion()
+"	let col = col('.') - 1
+"	if col == 0 || getline('.')[:col-1] =~ '^\s*$'
+"		return "\<tab>"
+"	else
+"		return "\<C-x>\<C-o>"
+"	endif
+"endfunction
+"inoremap <Tab> <c-r>=TabCompletion()<cr>
+"inoremap <S-Tab> <Tab>
 "inoremap <C-Tab> <Tab>    " Doesn't work due to terminal issues.
 "inoremap <Nul> <C-x><C-o> " Mapping of CTRL-Space
 

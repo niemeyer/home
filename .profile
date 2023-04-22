@@ -16,8 +16,9 @@ export CVS_RSH=ssh
 
 export EDITOR=vi
 
-export GDK_SCALE=2
-export GDK_DPI_SCALE=0.4
+# This needs to be per device.
+#export GDK_SCALE=2
+#export GDK_DPI_SCALE=0.4
 
 export LC_COLLATE=C
 
