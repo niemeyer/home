@@ -14,3 +14,8 @@
 	unghost = update-index --no-assume-unchanged
 	ghosted = ! git ls-files -v | grep '^[a-z]'
 	noghost = ! git ls-files -v | awk '/^[a-z]/ {system(\"git update-index --no-assume-unchanged \"$2)}'
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	defaultKeyCommand = ssh-add -L
+	allowedSignersFile = ~/.ssh/allowed_signers
